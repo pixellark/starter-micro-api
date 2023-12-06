@@ -7,9 +7,6 @@ const cors = require('cors');
 
 const app = express();
 
-
-
-
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({
@@ -152,8 +149,17 @@ app.post("/get_client_token", (req, res) => {
 // Helper / Utility functions
 
 //Servers the index.html file
-// Replace your existing code with the following
-app.use(express.static('public'));
+app.get('/', (req, res) => {
+  res.sendFile(process.cwd() + '/public/index.html');
+});
+//Servers the style.css file
+app.get('/style.css', (req, res) => {
+  res.sendFile(process.cwd() + '/public/style.css');
+});
+//Servers the script.js file
+app.get('/script.js', (req, res) => {
+  res.sendFile(process.cwd() + '/public/script.js');
+});
 
 
 //Send email with SendGrid BEGIN
@@ -236,10 +242,6 @@ function get_access_token() {
         })
 }
 
-
-
-
-// Start the server
-app.listen(3000, () => {
-  console.log('Server is running on port 3000');
-});
+app.listen(port, () => {
+    console.log(`Server listening at https://silly-puce-dirndl.cyclic.app/`)
+})
