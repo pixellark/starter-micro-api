@@ -1,13 +1,8 @@
-const express = require('express');
-const fetch = require('node-fetch');
-require('dotenv').config();
-const nodemailer = require('nodemailer');
-const cors = require('cors');
-
-
+import express from 'express';
+import fetch from 'node-fetch';
+import 'dotenv/config';
+import nodemailer from 'nodemailer';
 const app = express();
-
-app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({
     extended: true
@@ -16,7 +11,7 @@ app.use(express.urlencoded({
 //If you don't plan on using SendGrid with the REST method below or
 //if your dev environment isn't localhost but a secure HTTPS standard website URL,
 //then you will not need this line and shouldn't use it (for security)
-
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 const port = process.env.PORT || 3000;
 const environment = process.env.ENVIRONMENT || 'sandbox';
 const client_id = process.env.CLIENT_ID;
@@ -150,17 +145,16 @@ app.post("/get_client_token", (req, res) => {
 
 //Servers the index.html file
 app.get('/', (req, res) => {
-  res.sendFile(process.cwd() + '/public/index.html');
+    res.sendFile(process.cwd() + '/index.html');
 });
 //Servers the style.css file
 app.get('/style.css', (req, res) => {
-  res.sendFile(process.cwd() + '/public/style.css');
+    res.sendFile(process.cwd() + '/style.css');
 });
 //Servers the script.js file
 app.get('/script.js', (req, res) => {
-  res.sendFile(process.cwd() + '/public/script.js');
+    res.sendFile(process.cwd() + '/script.js');
 });
-
 
 //Send email with SendGrid BEGIN
 function send_email_receipt(object) {
@@ -243,5 +237,5 @@ function get_access_token() {
 }
 
 app.listen(port, () => {
-    console.log(`Server listening at https://silly-puce-dirndl.cyclic.app/`)
+    console.log(`Server listening at http://localhost:${port}`)
 })
