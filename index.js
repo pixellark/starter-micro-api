@@ -1,8 +1,16 @@
-import express from 'express';
-import fetch from 'node-fetch';
-import 'dotenv/config';
-import nodemailer from 'nodemailer';
+const express = require('express');
+const fetch = require('node-fetch');
+require('dotenv').config();
+const nodemailer = require('nodemailer');
+const cors = require('cors');
+
+
 const app = express();
+
+
+
+
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({
     extended: true
@@ -144,17 +152,9 @@ app.post("/get_client_token", (req, res) => {
 // Helper / Utility functions
 
 //Servers the index.html file
-app.get('/', (req, res) => {
-    res.sendFile(process.cwd() + '/index.html');
-});
-//Servers the style.css file
-app.get('/style.css', (req, res) => {
-    res.sendFile(process.cwd() + '/style.css');
-});
-//Servers the script.js file
-app.get('/script.js', (req, res) => {
-    res.sendFile(process.cwd() + '/script.js');
-});
+// Replace your existing code with the following
+app.use(express.static('public'));
+
 
 //Send email with SendGrid BEGIN
 function send_email_receipt(object) {
@@ -236,6 +236,6 @@ function get_access_token() {
         })
 }
 
-app.listen(port, () => {
-    console.log(`Server listening at https://silly-puce-dirndl.cyclic.app`)
-})
+
+
+
